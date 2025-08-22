@@ -1,0 +1,31 @@
+description: "Cleanliness rating for a specific bathroom type at this location"
+concrete_type: BathroomCleanliness
+pattern: "bathroom_cleanliness_{bathroom_type}"
+expected_properties:
+  value:
+    - "bad"           # CleanlinessRating.bad
+    - "neutral"       # CleanlinessRating.neutral  
+    - "good"          # CleanlinessRating.good
+    - "out_of_order"  # CleanlinessRating.outOfOrder
+    - "unknown"       # Unknown state
+    - ""              # Clear/remove rating
+bathroom_types:
+  - "mens_room"
+  - "womens_room"
+  - "family_room"
+  - "accessible"
+  - "gender_neutral"
+  - "single_unisex"
+example_keys:
+  - "bathroom_cleanliness_mens_room"
+  - "bathroom_cleanliness_womens_room"
+  - "bathroom_cleanliness_family_room"
+  - "bathroom_cleanliness_accessible"
+code_references:
+  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:190-206"
+  - "packages/ScoutModels/Sources/ScoutModels/Bathrooms/CleanlinessRating.swift:3-5"
+notes: |
+  - Value is CleanlinessRating.rawValue string
+  - Pattern: bathroom_cleanliness_{BathroomType.rawValue}
+  - Empty string removes the cleanliness rating
+  - Used in bathroom rating submission workflow

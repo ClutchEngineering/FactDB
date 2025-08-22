@@ -1,0 +1,17 @@
+description: "Does this location have an ATM machine?"
+concrete_type: AmenityState
+fact_key: "amenity_atm"
+expected_properties:
+  value:
+    - "true"
+    - "false"
+    - "unknown"
+    - "unavailable_temporary"
+    - "unavailable_permanent"
+code_references:
+  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:168"
+  - "apps/Scout/Scout/Features/Stations/AmenityEditorView.swift:288-298"
+notes: |
+  - Standard amenity state workflow
+  - unavailable_temporary for out-of-order ATMs
+  - unavailable_permanent for stations that never had ATMs

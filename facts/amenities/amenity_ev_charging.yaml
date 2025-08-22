@@ -1,0 +1,18 @@
+description: "Does this location have electric vehicle charging stations?"
+concrete_type: AmenityState
+fact_key: "amenity_ev_charging"
+expected_properties:
+  value:
+    - "true"
+    - "false"
+    - "unknown"
+    - "unavailable_temporary"
+    - "unavailable_permanent"
+code_references:
+  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:173"
+  - "apps/Scout/Scout/Features/Stations/AmenityEditorView.swift:288-298"
+notes: |
+  - Standard amenity state workflow
+  - unavailable_temporary for broken charging stations
+  - unavailable_permanent for stations that removed EV charging service
+  - Future versions may include detailed charging facts

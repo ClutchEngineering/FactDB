@@ -1,0 +1,7 @@
+description: "Is this location open 24 hours?"
+concrete_type: AmenityExists
+expected_properties:
+  value:
+    - true
+    - false
+    - unknown

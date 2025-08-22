@@ -1,0 +1,136 @@
+description: "Example showing how to submit bathroom cleanliness ratings and configurations"
+scenario:
+  - "Station with confirmed restroom amenity"
+  - "User rating bathroom cleanliness and facilities"
+  - "Mixed bathroom types with different configurations"
+
+complete_bathroom_submission:
+  # PREREQUISITE: Restrooms must be marked as available first
+  amenity_restrooms:
+    value: "true"
+    currency: null
+    volume: null
+    
+  # Bathroom Facilities Overview (JSON array format)
+  bathroom_facilities:
+    value: '["mens_room","womens_room","family_room","accessible"]'
+    currency: null
+    volume: null
+    
+  # Individual Bathroom Configurations
+  bathroom_mens_room_config:
+    value: "multiple"  # StallConfiguration.multiple
+    currency: null
+    volume: null
+  bathroom_womens_room_config:
+    value: "multiple"  # StallConfiguration.multiple
+    currency: null
+    volume: null
+  bathroom_family_room_config:
+    value: "single"    # Not applicable (family rooms don't use stall config)
+    currency: null
+    volume: null
+  bathroom_accessible_config:
+    value: "single"    # Not applicable (accessible rooms don't use stall config)
+    currency: null
+    volume: null
+    
+  # Changing Table Availability
+  bathroom_family_room_changing_table:
+    value: "true"
+    currency: null
+    volume: null
+  bathroom_accessible_changing_table:
+    value: "true"
+    currency: null
+    volume: null
+    
+  # Cleanliness Ratings
+  bathroom_cleanliness_mens_room:
+    value: "good"      # CleanlinessRating.good
+    currency: null
+    volume: null
+  bathroom_cleanliness_womens_room:
+    value: "neutral"   # CleanlinessRating.neutral
+    currency: null
+    volume: null
+  bathroom_cleanliness_family_room:
+    value: "good"      # CleanlinessRating.good
+    currency: null
+    volume: null
+  bathroom_cleanliness_accessible:
+    value: "good"      # CleanlinessRating.good
+    currency: null
+    volume: null
+
+rating_only_update:
+  description: "If bathrooms are already configured, users can update just cleanliness ratings"
+  bathroom_cleanliness_mens_room:
+    value: "bad"       # CleanlinessRating.bad
+    currency: null
+    volume: null
+  bathroom_cleanliness_womens_room:
+    value: "good"      # CleanlinessRating.good
+    currency: null
+    volume: null
+
+removing_bathroom_types:
+  description: "When bathroom facilities change, remove types by clearing their facts"
+  # Update facilities list (remove family bathroom)
+  bathroom_facilities:
+    value: '["mens_room","womens_room","accessible"]'
+    currency: null
+    volume: null
+  # Clear all family bathroom facts
+  bathroom_family_room_config:
+    value: ""
+    currency: null
+    volume: null
+  bathroom_family_room_changing_table:
+    value: ""
+    currency: null
+    volume: null
+  bathroom_cleanliness_family_room:
+    value: ""
+    currency: null
+    volume: null
+  bathroom_family_room_last_rated:
+    value: ""
+    currency: null
+    volume: null
+
+valid_configuration_values:
+  stall_config:
+    - "single"     # StallConfiguration.single
+    - "multiple"   # StallConfiguration.multiple
+  cleanliness_ratings:
+    - "bad"        # CleanlinessRating.bad
+    - "neutral"    # CleanlinessRating.neutral
+    - "good"       # CleanlinessRating.good
+    - "out_of_order"  # CleanlinessRating.outOfOrder
+  changing_table:
+    - "true"       # Only set if available
+  bathroom_types:
+    - "mens_room"     # BathroomType.mensRoom
+    - "womens_room"   # BathroomType.womensRoom
+    - "family_room"   # BathroomType.familyRoom
+    - "accessible"    # BathroomType.accessible
+    - "gender_neutral"    # BathroomType.genderNeutral
+    - "single_unisex"     # BathroomType.singleUnisex
+
+code_references:
+  - "apps/Scout/Scout/Core/Services/GroundTruthServiceExtensions.swift:390-442"
+  - "packages/ScoutModels/Sources/ScoutModels/Bathrooms/BathroomType.swift:4-52"
+  - "packages/ScoutModels/Sources/ScoutModels/Bathrooms/StallConfiguration.swift:4-16"
+  - "packages/ScoutModels/Sources/ScoutModels/Bathrooms/CleanlinessRating.swift"
+
+swift_implementation:
+  service_call: "await GroundTruthService.saveFacts(identifier: stationIdentifier, facts: factEdits)"
+  
+notes: |
+  - This example is corrected to match actual Scout implementation
+  - bathroom_facilities uses JSON array format with BathroomType.rawValue strings
+  - Stall configuration only applies to mens_room and womens_room types
+  - Changing table facts use bathroom_{type}_changing_table pattern
+  - Cleanliness facts use bathroom_cleanliness_{type} pattern
+  - Empty string values clear/remove facts

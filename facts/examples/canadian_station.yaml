@@ -1,0 +1,80 @@
+description: "Fact submission for a Canadian gas station showing regional differences in pricing format"
+station_profile:
+  location: "Canada (single pricing, no cash/credit distinction)"
+  currency: "CAD"
+  volume: "Liters"
+  fuel_types: ["Regular", "Premium with ethanol blends"]
+
+fact_submissions:
+  # Fuel Type Availability
+  fuel_type_octane_87:
+    value: "available"
+    currency: null
+    volume: null
+  fuel_type_octane_91:
+    value: "available"
+    currency: null
+    volume: null
+    
+  # Fuel Variants (Ethanol Content)
+  fuel_variant_87_e10:
+    value: "available"
+    currency: null
+    volume: null
+  fuel_variant_91_e10:
+    value: "available"
+    currency: null
+    volume: null
+    
+  # Prices (Canadian format - single price per fuel)
+  octane_87_e10:
+    value: "1.679"
+    currency: "CAD"
+    volume: "liters"
+  octane_91_e10:
+    value: "1.879"
+    currency: "CAD"
+    volume: "liters"
+    
+  # Basic Amenities
+  amenity_restrooms:
+    value: "true"
+    currency: null
+    volume: null
+  amenity_convenience_store:
+    value: "true"
+    currency: null
+    volume: null
+    
+  # Business Hours (limited hours)
+  business_hours:
+    value: "Mo-Su 06:00-23:00"
+    currency: null
+    volume: null
+
+key_differences_from_us:
+  - "Single Pricing: No _cash or _credit suffixes"
+  - "Currency: CAD instead of USD"
+  - "Volume: Liters instead of gallons"
+  - "Fact Keys: Use base fuel identifiers without payment method"
+  - "Regional Logic: Determined by region.supportsCashCreditDistinction == false"
+
+swift_implementation:
+  regional_logic: |
+    if region.supportsCashCreditDistinction {
+        // US: Include payment method suffix
+        factKey = "\(baseFuelKey)_\(paymentMethod.rawValue)"
+    } else {
+        // Canada: Use base fuel key without suffix
+        factKey = baseFuelKey
+    }
+  service_call: "await GroundTruthService.saveFacts(identifier: stationIdentifier, facts: factEdits)"
+  
+code_references:
+  - "apps/Scout/Scout/Core/Models/Extensions/FuelPrice+GroundTruth.swift:38-44"
+  
+notes: |
+  - Same Swift code handles both US and Canadian stations automatically
+  - Regional pricing logic determined by PriceRegion.supportsCashCreditDistinction
+  - Uses specific fuel variant keys for ethanol content (octane_87_e10)
+  - OpenStreetMap format for business hours works internationally

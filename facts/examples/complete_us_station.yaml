@@ -1,0 +1,137 @@
+description: "Complete fact submission for a typical US gas station with multiple fuel types, amenities, and facilities"
+station_profile:
+  location: "US (supports cash/credit pricing)"
+  type: "Full-service station with convenience store"
+  fuel_types: ["Regular (87)", "Premium (91)", "Diesel"]
+  amenities: ["Restrooms", "convenience store", "ATM"]
+  hours: "24/7 operation"
+  
+fact_submissions:
+  # STEP 1: Fuel Type Availability
+  fuel_type_octane_87:
+    value: "available"
+    currency: null
+    volume: null
+  fuel_type_octane_91:
+    value: "available" 
+    currency: null
+    volume: null
+  fuel_type_diesel:
+    value: "available"
+    currency: null
+    volume: null
+    
+  # STEP 2: Fuel Variants (Ethanol Content)  
+  fuel_variant_87_e10:
+    value: "available"
+    currency: null
+    volume: null
+  fuel_variant_91_e10:
+    value: "available"
+    currency: null
+    volume: null
+  diesel_b5:
+    value: "available"
+    currency: null
+    volume: null
+    
+  # STEP 3: Fuel Prices (US format with cash/credit)
+  octane_87_cash:
+    value: "3.459"
+    currency: "USD"
+    volume: "gallons"
+  octane_87_credit:
+    value: "3.489"
+    currency: "USD" 
+    volume: "gallons"
+  octane_91_cash:
+    value: "3.859"
+    currency: "USD"
+    volume: "gallons"
+  octane_91_credit:
+    value: "3.889"
+    currency: "USD"
+    volume: "gallons"
+  diesel_cash:
+    value: "3.649"
+    currency: "USD"
+    volume: "gallons"
+  diesel_credit:
+    value: "3.679"
+    currency: "USD"
+    volume: "gallons"
+    
+  # STEP 4: Amenities
+  amenity_restrooms:
+    value: "true"
+    currency: null
+    volume: null
+  amenity_convenience_store:
+    value: "true"
+    currency: null
+    volume: null
+  amenity_atm:
+    value: "true"
+    currency: null
+    volume: null
+  amenity_car_wash:
+    value: "false"
+    currency: null
+    volume: null
+  amenity_air_pump:
+    value: "true"
+    currency: null
+    volume: null
+    
+  # STEP 5: Bathroom Details (requires amenity_restrooms = "true")
+  bathroom_facilities:
+    value: '["mens_room","womens_room"]'  # JSON array format
+    currency: null
+    volume: null
+  bathroom_mens_room_config:
+    value: "multiple"  # StallConfiguration.multiple
+    currency: null
+    volume: null
+  bathroom_womens_room_config:
+    value: "multiple"  # StallConfiguration.multiple
+    currency: null
+    volume: null
+  bathroom_cleanliness_mens_room:
+    value: "good"  # CleanlinessRating.good
+    currency: null
+    volume: null
+  bathroom_cleanliness_womens_room:
+    value: "good"  # CleanlinessRating.good
+    currency: null
+    volume: null
+    
+  # STEP 6: Business Hours
+  business_hours:
+    value: "24/7"
+    currency: null
+    volume: null
+
+validation_rules:
+  - "Fuel Dependencies: Fuel variants require base fuel types to be available"
+  - "Price Dependencies: Prices require fuel types to be available"
+  - "Bathroom Dependencies: Bathroom details require amenity_restrooms = 'true'"
+  - "Regional Logic: US region enables cash/credit price distinction"
+  - "Currency/Volume: Prices include metadata, other facts don't"
+
+result_summary:
+  fuel_types: 3
+  fuel_variants: 3
+  price_points: 6
+  amenities: 5
+  bathroom_types: 2
+  business_hours: "24/7"
+  regional_compliance: "US pricing standards"
+  
+swift_implementation:
+  service_call: "await GroundTruthService.saveFacts(identifier: stationIdentifier, facts: factEdits)"
+  
+notes: |
+  - This example shows the corrected bathroom fact keys based on actual Scout implementation
+  - bathroom_facilities uses JSON array format with BathroomType.rawValue strings
+  - Bathroom configuration keys use bathroom_{type}_config pattern
+  - Cleanliness keys use bathroom_cleanliness_{type} pattern

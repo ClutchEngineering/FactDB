@@ -1,0 +1,7 @@
+description: "Does this location have diesel fuel available?"
+concrete_type: AmenityExists
+expected_properties:
+  value:
+    - true
+    - false
+    - unknown

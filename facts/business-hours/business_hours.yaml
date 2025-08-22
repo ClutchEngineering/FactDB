@@ -1,0 +1,34 @@
+description: "Operating hours and schedule for this gas station location"
+concrete_type: BusinessHours
+fact_key: "business_hours"
+expected_properties:
+  value:
+    - "24/7"                                    # Open 24 hours, 7 days a week
+    - "Mo-Su 06:00-23:00"                      # Monday to Sunday, 6 AM to 11 PM
+    - "Mo-Fr 06:00-22:00; Sa-Su 07:00-21:00"  # Different weekday/weekend hours
+    - "Mo-Su 05:30-23:30"                      # Monday to Sunday with 30-minute intervals
+    - "Mo-Th 06:00-23:00; Fr-Sa 06:00-24:00; Su 07:00-22:00"  # Complex schedule
+format: "OpenStreetMap opening hours format"
+format_rules:
+  days:
+    - "Mo (Monday), Tu, We, Th, Fr, Sa, Su"
+    - "Ranges: Mo-Fr (Monday to Friday), Sa-Su (Saturday to Sunday)"
+  time:
+    - "24-hour format HH:MM (e.g., 06:00, 23:30)"
+  multiple_periods:
+    - "Separated by semicolon ; (e.g., 'Mo-Fr 06:00-22:00; Sa-Su 07:00-21:00')"
+  always_open:
+    - "Use '24/7' for always open"
+code_references:
+  - "apps/Scout/Scout/Features/Stations/BusinessHours/BusinessHoursEditorSheet.swift:13"
+  - "apps/Scout/Scout/Features/Stations/BusinessHours/BusinessHoursEditorSheet.swift:30-34"
+backend_integration:
+  - "Triggers review_required audit task"
+  - "Triggers osm_sync_required audit task"
+  - "Designed for OpenStreetMap synchronization"
+notes: |
+  - Uses standard OpenStreetMap opening hours syntax
+  - No currency or volume metadata used
+  - Converts from PlaceDataModel.PlaceDetails.WeeklyHours format
+  - Special backend processing for OSM integration
+  - Must be valid OpenStreetMap opening hours format

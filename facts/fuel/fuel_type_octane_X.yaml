@@ -1,0 +1,26 @@
+description: "Availability of specific octane gasoline at this location"
+concrete_type: FuelTypeAvailability
+pattern: "fuel_type_octane_{octane_rating}"
+expected_properties:
+  value:
+    - "available"              # Fuel type is available
+    - "unavailable_temporary"   # Temporarily out of stock
+    - "unavailable_permanent"   # Permanently removed
+    - "unknown"                # Status unknown
+octane_range: "85-115"
+example_keys:
+  - "fuel_type_octane_87"   # Regular gasoline
+  - "fuel_type_octane_89"   # Mid-grade gasoline
+  - "fuel_type_octane_91"   # Premium gasoline
+  - "fuel_type_octane_93"   # Super premium gasoline
+  - "fuel_type_octane_85"   # High altitude gasoline
+  - "fuel_type_octane_115"  # Race fuel
+code_references:
+  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:28-31"
+  - "apps/Scout/Scout/Features/Stations/FuelTypeEditorView.swift:366-376"
+  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:40-45"
+notes: |
+  - Pattern: fuel_type_octane_{octane_rating} where octane_rating is 85-115
+  - Backend validates octane range rather than enumerating all values
+  - Most common octanes: 87 (regular), 89 (mid-grade), 91 (premium), 93 (super premium)
+  - Required before setting fuel variants or prices for gasoline

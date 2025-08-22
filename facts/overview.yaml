@@ -1,0 +1,119 @@
+name: "GroundTruth Fact Database"
+version: "2025.01"
+description: "Comprehensive documentation of all facts used in the GroundTruth/Scout system, based on actual implementation in the codebase"
+
+fact_submission_api:
+  service: "GroundTruthService.saveFacts()"
+  method: "await GroundTruthService.saveFacts(identifier: stationIdentifier, facts: factEdits)"
+  format: "Dictionary<String, FactEdit>"
+  
+fact_edit_structure:
+  value: "String (required) - The fact value"
+  currency: "String? (optional) - For price facts only (USD, CAD, EUR, etc.)"
+  volume: "UnitVolume? (optional) - For price facts only (.gallons, .liters)"
+
+fact_categories:
+  fuel_types:
+    description: "Fuel availability at stations"
+    pattern: "fuel_type_{fuel_identifier}"
+    values: ["available", "unavailable_temporary", "unavailable_permanent", "unknown"]
+    examples: ["fuel_type_octane_87", "fuel_type_diesel", "fuel_type_lpg"]
+    
+  fuel_variants:
+    description: "Specific fuel compositions (ethanol %, biodiesel %)"
+    patterns:
+      - "fuel_variant_{octane}_e{ethanol_percentage}"
+      - "diesel_b{biodiesel_percentage}"
+    values: ["true", "available", ""]
+    examples: ["fuel_variant_87_e10", "diesel_b5", "diesel_b20"]
+    
+  prices:
+    description: "Fuel pricing with regional differences"
+    patterns:
+      us_regions: "{fuel_identifier}_{cash|credit}"
+      non_us_regions: "{fuel_identifier}"
+    value_format: "X.XXX (3 decimal places)"
+    currency_required: true
+    volume_required: true
+    examples: ["octane_87_cash", "octane_87_credit", "diesel"]
+    
+  amenities:
+    description: "Station amenities and services"
+    pattern: "amenity_{amenity_id}"
+    values: ["true", "false", "unknown", "unavailable_temporary", "unavailable_permanent"]
+    supported_amenities: ["restrooms", "atm", "car_wash", "air_pump", "convenience_store", "restaurant", "ev_charging"]
+    
+  bathrooms:
+    description: "Bathroom facilities and cleanliness ratings"
+    requires: "amenity_restrooms = 'true'"
+    patterns:
+      facilities: "bathroom_facilities"
+      configuration: "bathroom_{type}_config"
+      changing_tables: "bathroom_{type}_changing_table"
+      cleanliness: "bathroom_cleanliness_{type}"
+      timestamps: "bathroom_{type}_last_rated"
+    bathroom_types: ["mens_room", "womens_room", "family_room", "accessible", "gender_neutral", "single_unisex"]
+    
+  business_hours:
+    description: "Operating hours and schedule"
+    fact_key: "business_hours"
+    format: "OpenStreetMap opening hours format"
+    examples: ["24/7", "Mo-Su 06:00-23:00", "Mo-Fr 06:00-22:00; Sa-Su 07:00-21:00"]
+
+regional_differences:
+  us_regions:
+    cash_credit_distinction: true
+    currency: "USD"
+    volume: "gallons"
+    price_pattern: "{fuel_identifier}_{payment_method}"
+    
+  non_us_regions:
+    cash_credit_distinction: false
+    currency: "CAD|EUR|etc"
+    volume: "liters"
+    price_pattern: "{fuel_identifier}"
+
+validation_rules:
+  dependencies:
+    fuel_variants: "Requires base fuel type to be available"
+    prices: "Requires fuel type to be available"
+    bathroom_details: "Requires amenity_restrooms = 'true'"
+    
+  patterns:
+    fuel_octane: "fuel_type_octane_{85-115}"
+    gasoline_variants: "fuel_variant_{octane}_e{ethanol_percentage}"
+    diesel_variants: "diesel_b{biodiesel_percentage}"
+    price_validation: "Positive numeric values with 3 decimal places"
+    
+  regional_compliance:
+    us_pricing: "Must use _cash/_credit suffixes"
+    international_pricing: "Must NOT use payment method suffixes"
+
+code_references:
+  fact_definitions: "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift"
+  price_conversion: "apps/Scout/Scout/Core/Models/Extensions/FuelPrice+GroundTruth.swift"
+  service_extensions: "apps/Scout/Scout/Core/Services/GroundTruthServiceExtensions.swift"
+  bathroom_models: "packages/ScoutModels/Sources/ScoutModels/Bathrooms/"
+  
+implementation_notes:
+  - "All values are strings, even numeric prices"
+  - "Empty string values clear/remove facts"
+  - "JSON array format used for bathroom_facilities"
+  - "NO 'price_' prefix used in actual implementation (despite FactDefinitions.swift)"
+  - "Regional logic automatically handled by Scout based on PriceRegion"
+  - "Fact validation occurs both client-side and server-side"
+
+accuracy_verification:
+  source: "Scout iOS app codebase (January 2025)"
+  verification_method: "Cross-referenced against actual implementation"
+  discrepancies_found:
+    - "FactDefinitions.swift shows 'price_' prefix but implementation doesn't use it"
+    - "Some amenity YAML files exist for amenities not in Scout's FactDefinitions"
+    - "Bathroom type names updated to match BathroomType enum rawValues"
+    
+examples_directory: "facts/examples/"
+supported_examples:
+  - "complete_us_station.yaml - Full US station setup"
+  - "canadian_station.yaml - Canadian regional differences"  
+  - "price_update.yaml - Price-only updates"
+  - "bathroom_rating.yaml - Bathroom configuration and ratings"

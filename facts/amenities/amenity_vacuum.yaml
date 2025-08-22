@@ -1,0 +1,7 @@
+description: "Does this location have vacuum cleaners for vehicle cleaning?"
+concrete_type: AmenityExists
+expected_properties:
+  value:
+    - true
+    - false
+    - unknown

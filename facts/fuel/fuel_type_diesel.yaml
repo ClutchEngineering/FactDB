@@ -1,0 +1,20 @@
+description: "Is diesel fuel available at this location?"
+concrete_type: FuelTypeAvailability
+fact_key: "fuel_type_diesel"
+expected_properties:
+  value:
+    - "available"              # Diesel is available
+    - "unavailable_temporary"   # Temporarily out of stock
+    - "unavailable_permanent"   # Permanently removed
+    - "unknown"                # Status unknown
+code_references:
+  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:17"
+  - "apps/Scout/Scout/Features/Stations/FuelTypeEditorView.swift:366-376"
+related_facts:
+  - "diesel_b5"    # 5% biodiesel blend
+  - "diesel_b20"   # 20% biodiesel blend
+  - "price_diesel" # Diesel pricing
+notes: |
+  - Required before setting diesel variants (biodiesel blends)
+  - Enables diesel pricing submissions
+  - Most common alternative fuel type at gas stations
