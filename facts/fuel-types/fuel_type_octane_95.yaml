@@ -1,0 +1,3 @@
+description: "Octane 95 gasoline availability"
+values: ["true", "false", "unknown"]
+notes: "High premium gasoline"

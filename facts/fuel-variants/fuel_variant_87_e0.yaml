@@ -1,0 +1,3 @@
+description: "Octane 87 gasoline with E0 (pure gasoline, no ethanol)"
+values: ["true", "false", "unknown"]
+notes: "Regular gasoline with no ethanol - becoming less common"

@@ -1,0 +1,3 @@
+description: "Price per gallon for octane 93 gasoline"
+values: ["3.85", "4.52", "3.29"]
+notes: "Numeric price values for premium 93 octane gasoline"

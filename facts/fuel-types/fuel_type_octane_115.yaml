@@ -1,0 +1,3 @@
+description: "Octane 115 gasoline availability"
+values: ["true", "false", "unknown"]
+notes: "Racing fuel grade - maximum supported octane"

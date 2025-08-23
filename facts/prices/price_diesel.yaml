@@ -1,0 +1,3 @@
+description: "Price per gallon for diesel fuel"
+values: ["3.89", "4.55", "3.22"]
+notes: "Numeric price values for standard diesel fuel"

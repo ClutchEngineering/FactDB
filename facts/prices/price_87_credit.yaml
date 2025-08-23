@@ -1,0 +1,3 @@
+description: "Credit card price per gallon for octane 87 gasoline"
+values: ["3.49", "4.15", "2.92"]
+notes: "Credit card payment price - typically higher than cash price (US regions only)"

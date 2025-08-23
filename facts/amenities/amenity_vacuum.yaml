@@ -1,7 +1,3 @@
-description: "Does this location have vacuum cleaners for vehicle cleaning?"
-concrete_type: AmenityExists
-expected_properties:
-  value:
-    - true
-    - false
-    - unknown
+description: "Vacuum cleaner availability"
+values: ["true", "false", "unknown"]
+notes: "Self-service vehicle interior cleaning vacuums"

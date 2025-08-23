@@ -1,0 +1,3 @@
+description: "Diesel B20 (20% biodiesel blend)"
+values: ["true", "false", "unknown"]
+notes: "High biodiesel content blend - fleet and specialty use"

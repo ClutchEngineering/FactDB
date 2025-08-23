@@ -1,0 +1,3 @@
+description: "Octane 92 gasoline availability"
+values: ["true", "false", "unknown"]
+notes: "Premium gasoline"

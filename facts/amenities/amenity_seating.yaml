@@ -1,7 +1,1 @@
-description: "Does this location have seating areas for customers?"
-concrete_type: AmenityExists
-expected_properties:
-  value:
-    - true
-    - false
-    - unknown
+values: ["true", "false", "unknown", "unavailable_temporary", "unavailable_permanent"]

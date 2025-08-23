@@ -1,0 +1,3 @@
+description: "Octane 89 gasoline availability"
+values: ["true", "false", "unknown"]
+notes: "Mid-grade gasoline - plus/regular plus grade"

@@ -1,0 +1,3 @@
+description: "Bathroom facility types available"
+values: ["[\"single_unisex\"]", "[\"mens_room\", \"womens_room\"]", "[\"gender_neutral\"]", "[\"family_room\"]", "[\"accessible\"]", "[]"]
+notes: "JSON array of available bathroom facility types - actual bathroom type strings from BathroomType enum"

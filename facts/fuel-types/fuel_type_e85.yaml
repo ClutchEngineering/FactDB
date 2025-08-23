@@ -1,0 +1,3 @@
+description: "E85 ethanol fuel availability"
+values: ["true", "false", "unknown"]
+notes: "85% ethanol blend - for flexible fuel vehicles (FFV)"

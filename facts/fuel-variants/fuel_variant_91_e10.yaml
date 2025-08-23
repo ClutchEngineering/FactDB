@@ -1,0 +1,3 @@
+description: "Octane 91 gasoline with E10 (10% ethanol blend)"
+values: ["true", "false", "unknown"]
+notes: "Premium gasoline with standard ethanol content"

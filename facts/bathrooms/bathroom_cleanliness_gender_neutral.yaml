@@ -1,0 +1,3 @@
+description: "Gender neutral bathroom cleanliness rating"
+values: ["bad", "neutral", "good", "out_of_order", "unknown"]
+notes: "Cleanliness rating for gender neutral bathroom facilities"

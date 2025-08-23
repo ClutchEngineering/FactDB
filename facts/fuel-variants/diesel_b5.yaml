@@ -1,0 +1,3 @@
+description: "Diesel B5 (5% biodiesel blend)"
+values: ["true", "false", "unknown"]
+notes: "Common biodiesel blend - standard in many regions"

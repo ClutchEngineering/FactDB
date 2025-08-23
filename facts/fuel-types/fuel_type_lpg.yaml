@@ -1,0 +1,3 @@
+description: "LPG (Liquefied Petroleum Gas) fuel availability"
+values: ["true", "false", "unknown"]
+notes: "Propane-based alternative fuel for specially equipped vehicles"

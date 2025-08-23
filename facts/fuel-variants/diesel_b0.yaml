@@ -1,0 +1,3 @@
+description: "Diesel B0 (pure petroleum diesel, no biodiesel)"
+values: ["true", "false", "unknown"]
+notes: "Traditional diesel fuel with no biodiesel content"

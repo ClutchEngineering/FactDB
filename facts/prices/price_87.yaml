@@ -1,0 +1,3 @@
+description: "Price per gallon for octane 87 gasoline"
+values: ["3.45", "4.12", "2.89"]
+notes: "Numeric price values in local currency - example prices shown"

@@ -1,0 +1,3 @@
+description: "Touchless car wash availability"
+values: ["true", "false", "unknown"]
+notes: "Automated car wash using high-pressure water and chemicals only"

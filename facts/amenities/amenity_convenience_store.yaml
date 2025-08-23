@@ -1,17 +1,3 @@
-description: "Does this location have a convenience store?"
-concrete_type: AmenityState
-fact_key: "amenity_convenience_store"
-expected_properties:
-  value:
-    - "true"
-    - "false"
-    - "unknown"
-    - "unavailable_temporary"
-    - "unavailable_permanent"
-code_references:
-  - "apps/Scout/Scout/Core/Configuration/FactDefinitions.swift:171"
-  - "apps/Scout/Scout/Features/Stations/AmenityEditorView.swift:288-298"
-notes: |
-  - Standard amenity state workflow
-  - unavailable_temporary for closed store (e.g., renovations)
-  - unavailable_permanent for stations that removed convenience store
+description: "Convenience store availability"
+values: ["true", "false", "unknown"]
+notes: "On-site retail store with snacks, drinks, and essentials"

@@ -1,61 +1,72 @@
-# GroundTruth Fact Database Documentation
+# GroundTruth Fact Database
 
-This directory contains comprehensive documentation of all facts used in the GroundTruth/Scout system, based on the current implementation in the codebase.
+Complete documentation of all facts used in the GroundTruth/Scout system. Every single possible fact combination is documented as individual concrete YAML files.
 
-## Directory Structure
+## Structure
 
-- **README.md** - This overview document
-- **fact-types/** - Detailed documentation for each fact type
-- **examples/** - Real-world examples of fact submission patterns
+**facts/** - Organized directories containing individual YAML files for every concrete fact
+- **fuel-types/** - 36 fuel type availability facts
+- **fuel-variants/** - 226 fuel composition variant facts  
+- **amenities/** - 20 station amenity facts
+- **bathrooms/** - 25 bathroom facility facts
+- **prices/** - 19 price facts (sample common fuels)
+- **business-hours/** - 1 operating schedule fact
 
-## Fact Types Overview
+327+ individual fact files total, each named with exact fact key (e.g., `fuel_type_octane_87.yaml`)  
+Minimal format: `values: ["supported", "values"]`
 
-Scout submits facts to the GroundTruth backend using the `GroundTruthService.saveFacts()` API. All facts follow a key-value structure with optional currency and volume metadata.
+## Fact Categories
 
-### Core Fact Categories
+### Fuel Types (`fuel-types/` - 36 facts)
+- Octane gasoline: `fuel_type_octane_85.yaml` through `fuel_type_octane_115.yaml` (31 files)
+- Alternative fuels: `fuel_type_diesel.yaml`, `fuel_type_premium_diesel.yaml`, `fuel_type_e85.yaml`, `fuel_type_hydrogen.yaml`, `fuel_type_lpg.yaml` (5 files)
 
-1. **[Fuel Types](fact-types/fuel-types.md)** - Fuel availability at stations
-2. **[Fuel Variants](fact-types/fuel-variants.md)** - Specific fuel compositions (ethanol %, biodiesel %)
-3. **[Prices](fact-types/prices.md)** - Fuel pricing with regional differences
-4. **[Amenities](fact-types/amenities.md)** - Station amenities and services
-5. **[Bathrooms](fact-types/bathrooms.md)** - Bathroom facilities and cleanliness ratings
-6. **[Business Hours](fact-types/business-hours.md)** - Operating hours and schedule
+### Fuel Variants (`fuel-variants/` - 226 facts)
+- Gasoline ethanol blends: `fuel_variant_{octane}_e{ethanol}.yaml` (217 files)
+  - All octanes 85-115 × ethanol percentages [0, 5, 10, 15, 25, 85, 100]
+- Diesel biodiesel blends: `diesel_b{percentage}.yaml` (9 files)
+  - Biodiesel percentages: [0, 2, 5, 7, 10, 15, 20, 30, 100]
 
-## Fact Submission Pattern
+### Amenities (`amenities/` - 20 facts)
+- All station amenities: `amenity_{id}.yaml`
+- Includes car wash sub-types and specialized services
 
-All facts are submitted using this structure:
+### Bathrooms (`bathrooms/` - 25 facts)
+- General facilities: `bathroom_facilities.yaml`
+- Per-bathroom-type facts: `bathroom_{type}_{attribute}.yaml`
+  - Types: mens_room, womens_room, family_room, accessible, gender_neutral, single_unisex
+  - Attributes: cleanliness, config, changing_table, last_rated
 
+### Prices (`prices/` - 19 facts)
+- Format: `price_{fuel}.yaml` and `price_{fuel}_{payment}.yaml`
+- Regional differences: US regions support cash/credit, non-US single price
+
+### Business Hours (`business-hours/` - 1 fact)
+- `business_hours.yaml` - OpenStreetMap format schedule
+
+## File Format
+
+Each YAML file contains:
+```yaml
+values: ["available", "unknown"]  # All supported values
+```
+
+Optional fields only when necessary:
+- `description: "Brief description"` 
+- `notes: "Essential usage notes"`
+
+## Usage
+
+All facts are submitted using:
 ```swift
 await GroundTruthService.saveFacts(identifier: stationIdentifier, facts: factEdits)
 ```
 
-Where `factEdits` is a dictionary of `[String: FactEdit]`:
+Where `factEdits` is `[String: FactEdit]` with:
+- `value`: Required string value
+- `currency`: Optional for price facts
+- `volume`: Optional for price facts
 
-```swift
-let factEdit = FactEdit(
-    value: "actual_value",     // Required: The fact value
-    currency: "USD",           // Optional: For price facts
-    volume: .gallons          // Optional: For price facts
-)
-```
+## Completeness
 
-## Regional Differences
-
-- **US Regions**: Support cash vs credit price distinctions
-- **Non-US Regions**: Single price per fuel type, no payment method suffix
-
-## Examples
-
-The `examples/` directory contains real-world submission patterns:
-
-- **[Complete Station Setup](examples/complete-station-setup.md)** - Comprehensive US station with all fact types
-- **[Canadian Station](examples/canadian-station.md)** - Regional differences in pricing format
-- **[Price Update](examples/price-update.md)** - Updating only fuel prices
-- **[Bathroom Rating](examples/bathroom-rating.md)** - Bathroom configuration and cleanliness
-
-## Validation
-
-Facts are validated against:
-- Predefined patterns in `FactDefinitions.swift`
-- Regional compatibility (e.g., cash/credit pricing)
-- Fuel type dependencies (e.g., diesel variants require diesel availability)
+This database contains every single concrete fact combination supported by Scout, with zero legacy content and full codebase accuracy.

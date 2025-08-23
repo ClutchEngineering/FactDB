@@ -1,0 +1,3 @@
+description: "Octane 100 gasoline availability"
+values: ["true", "false", "unknown"]
+notes: "Racing fuel grade - very high octane"
