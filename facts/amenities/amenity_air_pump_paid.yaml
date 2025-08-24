@@ -1,0 +1,3 @@
+description: "Paid air pump availability"
+values: ["true", "false", "unknown"]
+notes: "Compressed air for tire inflation requiring payment (often coin-operated or premium nitrogen)"

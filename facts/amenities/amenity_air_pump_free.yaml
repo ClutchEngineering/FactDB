@@ -1,0 +1,3 @@
+description: "Free air pump availability"
+values: ["true", "false", "unknown"]
+notes: "Compressed air for tire inflation available at no charge"

@@ -7,12 +7,12 @@ Complete documentation of all facts used in the GroundTruth/Scout system. Every 
 **facts/** - Organized directories containing individual YAML files for every concrete fact
 - **fuel-types/** - 36 fuel type availability facts
 - **fuel-variants/** - 226 fuel composition variant facts  
-- **amenities/** - 20 station amenity facts
+- **amenities/** - 22 station amenity facts
 - **bathrooms/** - 25 bathroom facility facts
 - **prices/** - 19 price facts (sample common fuels)
 - **business-hours/** - 1 operating schedule fact
 
-327+ individual fact files total, each named with exact fact key (e.g., `fuel_type_octane_87.yaml`)  
+329+ individual fact files total, each named with exact fact key (e.g., `fuel_type_octane_87.yaml`)  
 Minimal format: `values: ["supported", "values"]`
 
 ## Fact Categories
@@ -27,9 +27,9 @@ Minimal format: `values: ["supported", "values"]`
 - Diesel biodiesel blends: `diesel_b{percentage}.yaml` (9 files)
   - Biodiesel percentages: [0, 2, 5, 7, 10, 15, 20, 30, 100]
 
-### Amenities (`amenities/` - 20 facts)
+### Amenities (`amenities/` - 22 facts)
 - All station amenities: `amenity_{id}.yaml`
-- Includes car wash sub-types and specialized services
+- Includes car wash sub-types, air pump pricing options, and specialized services
 
 ### Bathrooms (`bathrooms/` - 25 facts)
 - General facilities: `bathroom_facilities.yaml`
